@@ -1,0 +1,18 @@
+---
+# Ansible playbook for servers
+- hosts: localhost
+  tasks:
+    - name: install tcpdump
+      yum:
+        name: tcpdump
+        state: present
+      become: yes
+        
+    - name: add static route
+      shell: ip route add 10.10.10.10/32 via 192.168.200.2
+      become: yes
+    
+    - name: change ttl
+      shell: iptables -t mangle -A PREROUTING -i eth1 -j TTL --ttl-set 64
+      become: yes  
+
